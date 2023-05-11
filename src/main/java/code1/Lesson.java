@@ -3,11 +3,7 @@ package code1;
 import java.util.ArrayList;
 import java.util.List;
 
-record Lesson(
-        Long id,
-        String name,
-        StudentManager studentManager
-) {
+public class Lesson {
     private static final String REGEX = "[a-zA-Z가-힣]{1,10}";
 
     private Long id;
@@ -43,15 +39,16 @@ record Lesson(
     public void regist(Student student) {
         students.add(student);
     }
-    public Long studentSize(){
-        return studentManager.studentCount();
+
+    public int studentCount() {
+        return students.size();
     }
 
-    public Long lessonEnd(Long studentId){
-        return studentManager.minus(studentId);
+    public void end(Student student) {
+        students.remove(student);
     }
 
-    public Long lessonReset(){
-        return studentManager.reset();
+    public void reset() {
+        this.students = new ArrayList<>();
     }
 }
