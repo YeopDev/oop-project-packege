@@ -1,6 +1,7 @@
 package code1;
 
-import static code1.Lesson.deafultTable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     // 객체지향 공부 7
@@ -13,15 +14,33 @@ public class Main {
      *
      * - 학생이 수업을 들으면 명단에서 빠진다.
      *
-     * - new : 학생 전부가 수업을 들으면 명단을 초기화 한다.
+     * - 학생 전부가 수업을 들으면 명단을 초기화 한다.
      *
-     * -
+     * - new : 학원은 수업을 시작한다.
+     *
+     * - new : 학원은 수업을 끝낸다.
+     *
+     * - new : 학원은 수업이 다 끝난건지 확인한다.
      */
     public static void main(String[] args) {
-        Lesson lesson = new Lesson(0L,"TestLesson",deafultTable());
+        Student student1 = new Student(0L,"yeop");
+        Student student2 = new Student(1L,"gun");
+        Student student3 = new Student(2L,"junny");
 
-        Student s1 = new Student(0L,"junny");
-        lesson.studentRegist(s1.id());
+        Lesson meth = new Lesson(0L,"Meth", new ArrayList<>());
+        Lesson english = new Lesson(1L,"English", new ArrayList<>());
+
+       /* meth.regist(student1.get());
+        meth.regist(student2.id());
+        english.regist(student3.id());
+
+        BootCamp bootCamp = new BootCamp(
+                List.of(meth,english)
+        );
+
+        System.out.println("수업을 시작한다.");
+        bootCamp.startLesson();*/
+
 
     }
 }

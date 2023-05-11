@@ -10,19 +10,38 @@ record Lesson(
 ) {
     private static final String REGEX = "[a-zA-Z가-힣]{1,10}";
 
-    Lesson {
+    private Long id;
+    private String name;
+    private List<Student> students;
+
+    public Lesson(Long id, String name, List<Student> students) {
         if (id == null) {
             throw new IllegalArgumentException("Not Null id");
         }
         if (name == null || !name.matches(REGEX)) {
             throw new IllegalArgumentException("Not Null Name or Not greater than 10");
         }
-        if (studentManager == null || studentManager.studentCount() > 0) {
+        if (students == null || students.isEmpty()) {
             throw new IllegalArgumentException("기본 학생은 0명부터 시작합니다");
         }
+        this.id = id;
+        this.name = name;
+        this.students = students;
     }
-    public Long studentRegist(Long studentId){
-        return studentManager.add(studentId);
+
+    public Long getId(){
+        return this.id;
+    }
+    public String getName(){
+        return this.name;
+    }
+
+    public List<Student> getStudents(){
+        return this.students;
+    }
+
+    public void regist(Student student) {
+        students.add(student);
     }
     public Long studentSize(){
         return studentManager.studentCount();
@@ -34,31 +53,5 @@ record Lesson(
 
     public Long lessonReset(){
         return studentManager.reset();
-    }
-
-    public static StudentManager deafultTable() {
-        return new StudentManager(new ArrayList<>());
-    }
-
-    private record StudentManager(
-            List<Long> students
-    ) {
-        private Long studentCount() {
-            return (long) this.students.size();
-        }
-        private Long add(Long studentId) {
-            this.students.add(studentId);
-            return (long) this.students.size();
-        }
-
-        private Long minus(Long studentId){
-            this.students.remove(studentId);
-            return (long) this.students.size();
-        }
-
-        private Long reset(){
-            this.students.removeAll(this.students);
-            return (long) this.students.size();
-        }
     }
 }
