@@ -1,6 +1,5 @@
 package code1;
 
-import java.util.ArrayList;
 import java.util.List;
 
 record Lesson(Long id, String name, List<Student> students) {

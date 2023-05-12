@@ -29,8 +29,8 @@ public class Main {
         Student student1 = new Student(0L,"yeop");
         Student student2 = new Student(1L,"gun");
 
-        Lesson meth = new Lesson(0L,"Meth", new ArrayList<>());
-        Lesson english = new Lesson(1L,"English", new ArrayList<>());
+        Lesson meth = new Lesson(0L,"meth", new ArrayList<>());
+        Lesson english = new Lesson(1L,"english", new ArrayList<>());
 
         meth.regist(student1);
         english.regist(student2);
@@ -39,10 +39,10 @@ public class Main {
                 List.of(meth,english)
         );
 
-        System.out.println("수업을 시작한다.");
-        String lessonName = sc.next();
-        bootCamp.startLesson(lessonName);
-        bootCamp.end();
-
+        System.out.println("시작 할 수업을 입력해주세요.");
+        String lessonName = sc.next().toLowerCase();
+        System.out.println("수업을 시작합니다.");
+        Lesson target = bootCamp.startLesson(lessonName);
+        bootCamp.endLesson(target);
     }
 }
