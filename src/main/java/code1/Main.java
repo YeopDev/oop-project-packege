@@ -2,6 +2,7 @@ package code1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     // 객체지향 공부 7
@@ -22,25 +23,26 @@ public class Main {
      *
      * - new : 학원은 수업이 다 끝난건지 확인한다.
      */
+    private static final Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         Student student1 = new Student(0L,"yeop");
         Student student2 = new Student(1L,"gun");
-        Student student3 = new Student(2L,"junny");
 
         Lesson meth = new Lesson(0L,"Meth", new ArrayList<>());
         Lesson english = new Lesson(1L,"English", new ArrayList<>());
 
-       /* meth.regist(student1.get());
-        meth.regist(student2.id());
-        english.regist(student3.id());
+        meth.regist(student1);
+        english.regist(student2);
 
         BootCamp bootCamp = new BootCamp(
                 List.of(meth,english)
         );
 
         System.out.println("수업을 시작한다.");
-        bootCamp.startLesson();*/
-
+        String lessonName = sc.next();
+        bootCamp.startLesson(lessonName);
+        bootCamp.end();
 
     }
 }

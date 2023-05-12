@@ -1,47 +1,32 @@
 package code1;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.LongStream;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 record BootCamp(List<Lesson> lessons) {
-    /**
-     * 수업을 시작해.
-     *
-     * @param lesson
-     */
-    public void startLesson(Lesson lesson) {
+    public void startLesson(String lessonName) {
         Lesson target = lessons.stream()
-                .filter(item -> item == lesson)
-                .findFirst().get();
-
-        Student student = target.getStudents().stream().findAny().get();
-
-        student.lessonListen(target);
-
-        student.endLesson(target);
-
-        endLesson(lesson);
+                .filter(l -> l.name().equals(lessonName))
+                .findFirst()
+                .orElseThrow(NullPointerException::new);
+        System.out.println("학생전부가 수업을 들었습니다.");
+        System.out.printf("수업에 참여한 총 학생 수는 %d명 입니다. \n", target.studentCount());
+        target.studentReset();
     }
 
-    public void endLesson(Lesson lesson) {
-        lessons.remove(lesson);
+    public void end() {
+        System.out.println("수업이 폐강 되었습니다.");
+/*        lessons.stream()
+                .filter(item -> item.id() == lesson.id())
+                .collect(Collectors.toList())
+                        .forEach(li -> {lessons.remove(li);});*/
+
+/*        lessons = IntStream.range(0,lessons.size())
+                .filter(idx -> idx == lesson.id())
+                .mapToObj(idx -> lessons.get(idx))
+                .collect(Collectors.toList());*/
+        System.out.println("newLessons = " + lessons.toString());
     }
-
-
-  /*  public void startLesson(Student student, Lesson lesson){
-        System.out.printf("%s 수업을 시작합니다.",lesson.name());
-        student.lessonListen(lesson);
-        System.out.printf("현재 총 학생 %d명이 수업을 듣는 중입니다.",lesson.studentSize());
-        System.out.println(" 수업중.. ");
-    }
-
-    public void endLesson(Student student, Lesson lesson){
-        System.out.println("수업이 끝났습니다.");
-        student.endLesson(lesson);
-    }*/
-
-    // 학원의 수업이 전부 끝났습니다. lesson 초기화
-    //
 
 }

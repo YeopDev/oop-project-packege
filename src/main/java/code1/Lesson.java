@@ -3,37 +3,16 @@ package code1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lesson {
+record Lesson(Long id, String name, List<Student> students) {
     private static final String REGEX = "[a-zA-Z가-힣]{1,10}";
 
-    private Long id;
-    private String name;
-    private List<Student> students;
-
-    public Lesson(Long id, String name, List<Student> students) {
+    public Lesson{
         if (id == null) {
             throw new IllegalArgumentException("Not Null id");
         }
         if (name == null || !name.matches(REGEX)) {
             throw new IllegalArgumentException("Not Null Name or Not greater than 10");
         }
-        if (students == null || students.isEmpty()) {
-            throw new IllegalArgumentException("기본 학생은 0명부터 시작합니다");
-        }
-        this.id = id;
-        this.name = name;
-        this.students = students;
-    }
-
-    public Long getId(){
-        return this.id;
-    }
-    public String getName(){
-        return this.name;
-    }
-
-    public List<Student> getStudents(){
-        return this.students;
     }
 
     public void regist(Student student) {
@@ -44,11 +23,7 @@ public class Lesson {
         return students.size();
     }
 
-    public void end(Student student) {
-        students.remove(student);
-    }
-
-    public void reset() {
-        this.students = new ArrayList<>();
+    public void studentReset() {
+        students.clear();
     }
 }
