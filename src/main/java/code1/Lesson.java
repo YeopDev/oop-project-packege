@@ -23,6 +23,6 @@ record Lesson(Long id, String name, List<Student> students) {
     }
 
     public void studentReset() {
-        students.clear();
+    students.clear();
     }
 }
