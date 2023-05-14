@@ -22,12 +22,6 @@ class BootCampTest {
     @DisplayName("부트캠프에 올바른 값이 들어오지 않았을 경우")
     void bootCampConstructorThrownBy(List<Lesson> lessons){
         Assertions.assertThatThrownBy(
-                /*() -> {
-                    Lesson lesson = new Lesson(id,lessonName,new ArrayList<>());
-                    List<Lesson> lessons = new ArrayList<>();
-                    lessons.add(lesson);
-                    BootCamp bootCamp = new BootCamp(lessons);
-                }*/
                 () -> new BootCamp(lessons)
 
         ).isInstanceOf(IllegalArgumentException.class);
