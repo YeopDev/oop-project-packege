@@ -14,7 +14,7 @@ public class Race {
             this.cars = new ArrayList<>(cars);
         }
 
-        public void startRace(int rounds) {
+        public void start(int rounds) {
             IntStream.range(0, rounds).forEach(i -> cars.forEach(Car::move));
         }
 
