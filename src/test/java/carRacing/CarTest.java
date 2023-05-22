@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.assertj.core.api.Assertions.*;
+
 class CarTest {
 
     @ParameterizedTest
@@ -25,17 +27,14 @@ class CarTest {
         ).isInstanceOf(IllegalArgumentException.class).hasMessage("[ERROR] 이름값이 올바르지 않습니다.");
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"람보르기니:0"},delimiter = ':')
-    @DisplayName("자동차가 움직이는 메소드 검증")
-    void moveMethodNoThrownBy(String name, int distance) {
-        Assertions.assertThatCode(
-                () -> {
-                    Car car = new Car(name, distance);
-                    car.move();
-                    Assertions.assertThat(car.distance()).isNotEqualTo(0);
-                }
-        ).doesNotThrowAnyException();
+    @Test
+    @DisplayName("자동차가 움직이는 메소드 검증(랜덤값 검증: 더블테스트어블)")
+    void moveMethodNoThrownBy() {
+        Car car = new Car("gunim", 0, () -> true);
+
+        car.move();
+
+        assertThat(car.distance()).isEqualTo(1);
     }
 
 }

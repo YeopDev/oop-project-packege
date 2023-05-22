@@ -4,12 +4,12 @@ import java.util.Random;
 
 import static java.util.Objects.isNull;
 
-public class Car implements MoveAble {
-        private static final Random random = new Random();
+public class Car {
+        private final MovePolicy movePolicy;
         private String name;
         private int distance;
 
-        public Car(String name, int distance) {
+        public Car(String name, int distance, MovePolicy movePolicy) {
             if (isNull(name) || name.equals(" ")) {
                 throw new IllegalArgumentException("[ERROR] 이름값이 올바르지 않습니다.");
             }
@@ -21,6 +21,7 @@ public class Car implements MoveAble {
             }
             this.name = name;
             this.distance = distance;
+            this.movePolicy = movePolicy;
         }
 
         public String name() {
@@ -31,13 +32,12 @@ public class Car implements MoveAble {
             return distance;
         }
 
-        @Override
         public void move() {
-            int randomNumber = random.nextInt(10);
-            if (randomNumber >= 4) {
+            if (movePolicy.isMove()) {
                 this.distance++;
             }
         }
+
 
         public boolean equalDistance(int distance) {
             return this.distance == distance;
