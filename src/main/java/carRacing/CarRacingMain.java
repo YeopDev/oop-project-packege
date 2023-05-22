@@ -1,8 +1,10 @@
 package carRacing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CarRacingMain {
         /*
@@ -20,15 +22,7 @@ public class CarRacingMain {
                 System.out.println("자동차 이름을 입력하세요.");
                 String carNameInput = sc.nextLine();
                 String[] names = carNameInput.split(",");
-                List<Car> list = new ArrayList<>();
-
-                for (String name : names) {
-                    if (name.trim().length() > 5) {
-                        throw new IllegalArgumentException("[ERROR] 자동차이름은 5글자 이내로 입력하세요.");
-                    }
-                    Car car = new Car(name, 0);
-                    list.add(car);
-                }
+                List<Car> list = Arrays.stream(names).map(car -> new Car(car,0)).toList();
 
                 System.out.println("몇 턴을 실행 하실건지 입력해주세요.");
                 int rounds = sc.nextInt();
@@ -36,7 +30,9 @@ public class CarRacingMain {
                 race.startRace(rounds);
 
                 List<Car> winnerCars = race.winners();
-                System.out.print("우승자: ");
-                winnerCars.stream().forEach(winner -> System.out.println(winner.name() + " - " + winner.distance() + "칸"));
+                System.out.printf("우승자: %s",winnerCars.stream()
+                                .map(winner -> winner.name() + " - " + winner.distance() + "칸")
+                                .collect(Collectors.joining(", \n"))
+                );
         }
 }

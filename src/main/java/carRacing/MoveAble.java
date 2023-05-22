@@ -1,5 +1,5 @@
 package carRacing;
 
-public interface Policy {
+public interface MoveAble {
     void move();
 }
