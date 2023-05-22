@@ -43,3 +43,17 @@ public class Car {
             return this.distance == distance;
         }
 }
+
+@FunctionalInterface
+interface MovePolicy {
+    boolean isMove();
+}
+
+class RandomMovePolicy implements MovePolicy {
+    private static final Random random = new Random();
+
+    @Override
+    public boolean isMove() {
+        return random.nextInt(10) >= 4;
+    }
+}

@@ -1,7 +1,7 @@
 package carRacing;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -13,8 +13,8 @@ class CarTest {
     @CsvSource(value = {"람보르기니:0"}, delimiter = ':')
     @DisplayName("생성자에 올바른 값이 들어왔을 경우")
     void carConstructorNoThrownBy(String name, int distance) {
-        Assertions.assertThatCode(
-                () -> new Car(name, distance)
+        assertThatCode(
+                () -> new Car(name, distance, null)
         ).doesNotThrowAnyException();
     }
 
@@ -22,8 +22,8 @@ class CarTest {
     @CsvSource(value = {":0"}, delimiter = ':')
     @DisplayName("생성자에 올바르지 않은 값이 들어왔을 경우")
     void carConstructorThrownBy(String name, int distance) {
-        Assertions.assertThatThrownBy(
-                () -> new Car(name, distance)
+        assertThatThrownBy(
+                () -> new Car(name, distance, null)
         ).isInstanceOf(IllegalArgumentException.class).hasMessage("[ERROR] 이름값이 올바르지 않습니다.");
     }
 
@@ -36,5 +36,4 @@ class CarTest {
 
         assertThat(car.distance()).isEqualTo(1);
     }
-
 }
