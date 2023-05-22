@@ -18,7 +18,7 @@ public class Race {
             IntStream.range(0, rounds).forEach(i -> cars.forEach(Car::move));
         }
 
-        public List<Car> winners() { // car 의 distance랑 race의 distance 가 같냐
+        public List<Car> winners() {
             int maxDistance = this.cars.stream()
                     .mapToInt(Car::distance)
                     .max()
