@@ -2,7 +2,6 @@ package bookManagement;
 
 import bookManagement.Library.Book.Book;
 import bookManagement.Library.Library;
-import bookManagement.Library.LibraryBookManager;
 import bookManagement.Library.Member.Member;
 
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ public class BookManagementMain {
             checkOutBooks.add(book);
         }
 
-        LibraryBookManager libraryBookManager = new LibraryBookManager(member, checkOutBooks);
         System.out.printf("%s이 도서를 대출 합니다.",member.name());
         checkOutBooks = library.checkOutBook(checkOutBooks);
         System.out.println(checkOutBooks);

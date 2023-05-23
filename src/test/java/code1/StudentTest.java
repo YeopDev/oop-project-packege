@@ -21,7 +21,7 @@ class StudentTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"1, name","2,이름"})
+    @CsvSource({"1, names","2,이름"})
     @DisplayName("학생의 이름이 올바르게 입력받았을 경우")
     void studentConstructorNoThrownBy(Long id, String name){
         Student result = new Student(id,name);
