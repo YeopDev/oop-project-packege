@@ -1,15 +1,35 @@
 package bookManagement.Library.Member;
 
+import bookManagement.Library.Book.Book;
+import bookManagement.Library.Library;
+
+import java.util.List;
+
 import static java.util.Objects.isNull;
 
 public record Member(Long id, String name) {
 
-    public Member{
-        if(isNull(id) || id < 0){
-            throw new IllegalArgumentException("회원번호가 올바르지 않은 값이 할당 되었습니다.");
+    public Member {
+        if (isNull(id) || id < 0) {
+            throw new IllegalArgumentException("id 값이 올바르지 않습니다.");
         }
-        if(isNull(name) || name.isBlank()){
-            throw new IllegalArgumentException("회원이름에 올바르지 않은 값이 할당 되었습니다.");
+        if (isNull(name) || name.isBlank()) {
+            throw new IllegalArgumentException("회원이름이 올바르지 않습니다.");
         }
+    }
+
+    public List<Book> borrowBooks(Library library, List<Long> borrowedIds) {
+        if (!library.isChecked(borrowedIds)) {
+            throw new IllegalArgumentException("대출하려는 책이 없습니다.");
+        }
+        return library.borrowedBooks(borrowedIds);
+    }
+
+    public Library returnBook(Library library, List<Long> returnIds) {
+        if (!library.isChecked(returnIds)) {
+            throw new IllegalArgumentException("반납하려는 책이 없습니다.");
+        }
+
+        return library.returnBooks(returnIds);
     }
 }

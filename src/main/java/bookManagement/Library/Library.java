@@ -1,55 +1,51 @@
 package bookManagement.Library;
 
 import bookManagement.Library.Book.Book;
+import bookManagement.Library.Book.BookStockQuantity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public record Library(List<Book> books) {
+public record Library(List<BookStockQuantity> bookStockQuantities) {
     public Library {
-        if (books.isEmpty()) {
+        if (bookStockQuantities.isEmpty()) {
             throw new IllegalArgumentException("리스트가 비어있습니다.");
         }
-        books = new ArrayList<>(books);
+        bookStockQuantities = new ArrayList<>(bookStockQuantities);
     }
 
-    public List<Book> search(String keyword) {
-        if (keyword.isBlank()) {
-            throw new IllegalArgumentException("정상적인 책 이름을 입력해주세요.");
-        }
-        return books.stream()
-                .filter(book -> book.checkTitle(keyword))
+    public boolean isChecked(List<Long> ids) {
+        return !ids.isEmpty();
+    }
+
+    public List<Book> borrowedBooks(List<Long> borrowedIds) {
+        return bookStockQuantities.stream()
+                .filter(bookStockQuantity -> borrowedIds.contains(bookStockQuantity.returnBookId()))
+                .map(BookStockQuantity::book)
                 .toList();
     }
 
-    public Optional<Book> findById(Long id) {
-        return books.stream()
-                .filter(book -> book.checkId(id))
-                .findFirst();
+    public Library decreaseQuantity(List<Long> borrowedIds) {
+        return new Library(bookStockQuantities.stream()
+                .map(bookStockQuantity -> {
+                    if (borrowedIds.contains(bookStockQuantity.returnBookId())) {
+                        return bookStockQuantity.decreaseStockQuantity();
+                    }
+                    return bookStockQuantity;
+                })
+                .toList()
+        );
     }
 
-    public List<Book> checkOutBook(List<Book> checkOutList) {
-        Set<Long> checkOutId = checkOutList.stream()
-                .map(Book::id)
-                .collect(Collectors.toSet());
-        List<Book> changeBooks = books.stream()
-                .filter(book -> checkOutId.contains(book.id()))
-                .map(Book::checkOut)
-                .toList();
-        return changeBooks;
-    }
-
-    public List<Book> returnBook(List<Book> checkOutList) {
-        Set<Long> checkOutId = checkOutList.stream()
-                .map(Book::id)
-                .collect(Collectors.toSet());
-        List<Book> changeBooks = books.stream()
-                .filter(book -> checkOutId.contains(book.id()))
-                .map(Book::returnBook)
-                .toList();
-        return changeBooks;
+    public Library returnBooks(List<Long> returnIds) {
+        return new Library(bookStockQuantities.stream()
+                .map(bookStockQuantity -> {
+                    if (returnIds.contains(bookStockQuantity.returnBookId())) {
+                        return bookStockQuantity.increaseStockQuantity();
+                    }
+                    return bookStockQuantity;
+                })
+                .toList()
+        );
     }
 }
