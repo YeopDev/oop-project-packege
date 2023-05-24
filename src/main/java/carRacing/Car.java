@@ -36,7 +36,6 @@ public class Car {
             }
         }
 
-
         public boolean equalDistance(int distance) {
             return this.distance == distance;
         }
