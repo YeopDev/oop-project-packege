@@ -10,7 +10,7 @@ public class Yeop extends Human{
     @Override
     public void payments(String move, int sales) {
         System.out.println(move + "를 결제한다. ");
-        if(isNull(sales) || sales <= 0){
+        if(sales <= 0){
             throw new IllegalArgumentException("금액이 올바르지 않습니다.");
         }
         money -= sales;
