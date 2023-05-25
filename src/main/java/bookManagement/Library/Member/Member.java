@@ -18,7 +18,14 @@ public record Member(Long id, String name) {
         }
     }
 
-    public List<Book> borrowBooks(Library library, List<Long> borrowedIds) {
+    public List<Book> showBooks(Library library, List<Long> ids) {
+        if (!library.isChecked(ids)) {
+            throw new IllegalArgumentException("대출하려는 책이 없습니다.");
+        }
+        return library.displayBooks(ids);
+    }
+
+    public Library borrowBooks(Library library, List<Long> borrowedIds) {
         if (!library.isChecked(borrowedIds)) {
             throw new IllegalArgumentException("대출하려는 책이 없습니다.");
         }
@@ -29,7 +36,6 @@ public record Member(Long id, String name) {
         if (!library.isChecked(returnIds)) {
             throw new IllegalArgumentException("반납하려는 책이 없습니다.");
         }
-
         return library.returnBooks(returnIds);
     }
 }

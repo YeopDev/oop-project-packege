@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record Library(List<BookStockQuantity> bookStockQuantities) {
+
     public Library {
         if (bookStockQuantities.isEmpty()) {
             throw new IllegalArgumentException("리스트가 비어있습니다.");
@@ -18,14 +19,14 @@ public record Library(List<BookStockQuantity> bookStockQuantities) {
         return !ids.isEmpty();
     }
 
-    public List<Book> borrowedBooks(List<Long> borrowedIds) {
+    public List<Book> displayBooks(List<Long> ids) {
         return bookStockQuantities.stream()
-                .filter(bookStockQuantity -> borrowedIds.contains(bookStockQuantity.returnBookId()))
+                .filter(bookStockQuantity -> ids.contains(bookStockQuantity.returnBookId()))
                 .map(BookStockQuantity::book)
                 .toList();
     }
 
-    public Library decreaseQuantity(List<Long> borrowedIds) {
+    public Library borrowedBooks(List<Long> borrowedIds) {
         return new Library(bookStockQuantities.stream()
                 .map(bookStockQuantity -> {
                     if (borrowedIds.contains(bookStockQuantity.returnBookId())) {
