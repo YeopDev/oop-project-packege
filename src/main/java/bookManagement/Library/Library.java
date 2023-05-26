@@ -27,26 +27,10 @@ public record Library(List<BookStockQuantity> bookStockQuantities) {
     }
 
     public Library borrowedBooks(List<Long> borrowedIds) {
-        return new Library(bookStockQuantities.stream()
-                .map(bookStockQuantity -> {
-                    if (borrowedIds.contains(bookStockQuantity.returnBookId())) {
-                        return bookStockQuantity.decreaseStockQuantity();
-                    }
-                    return bookStockQuantity;
-                })
-                .toList()
-        );
+        return new BorrowedBooks(bookStockQuantities, borrowedIds).bookStateChange();
     }
 
     public Library returnBooks(List<Long> returnIds) {
-        return new Library(bookStockQuantities.stream()
-                .map(bookStockQuantity -> {
-                    if (returnIds.contains(bookStockQuantity.returnBookId())) {
-                        return bookStockQuantity.increaseStockQuantity();
-                    }
-                    return bookStockQuantity;
-                })
-                .toList()
-        );
+        return new ReturnBooks(bookStockQuantities, returnIds).bookStateChange();
     }
 }
