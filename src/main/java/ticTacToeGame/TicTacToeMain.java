@@ -2,6 +2,7 @@ package ticTacToeGame;
 
 import ticTacToeGame.boardPan.Board;
 import ticTacToeGame.computer.Computer;
+import ticTacToeGame.computer.CreatePosition;
 import ticTacToeGame.player.Player;
 import ticTacToeGame.position.Position;
 
@@ -17,7 +18,7 @@ public class TicTacToeMain {
         System.out.println("게임판을 생성하였습니다.");
         printBoard(board.content());
 
-        Computer computer = new Computer("C");
+        Computer computer = new Computer("C", new CreatePosition());
         Player player = new Player("P");
 
         while (!gameOver) {

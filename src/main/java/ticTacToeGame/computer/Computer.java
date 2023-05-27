@@ -6,12 +6,13 @@ import ticTacToeGame.position.Position;
 import static java.util.Objects.isNull;
 
 public class Computer {
-    private final CreatePosition randomPosition = new CreatePosition();
     private String name;
+    private CreatePositionPolicy createPositionPolicy;
 
-    public Computer(String name) {
+    public Computer(String name, CreatePositionPolicy createPositionPolicy) {
         validate(name);
         this.name = name;
+        this.createPositionPolicy = createPositionPolicy;
     }
 
     public String name() {
@@ -20,7 +21,7 @@ public class Computer {
 
     public String[][] mark(Board board) {
         while (true) {
-            Position position = randomPosition.create();
+            Position position = createPositionPolicy.create();
             if (board.isCellEmpty(position)) {
                 return board.markCell(position, name);
             }
