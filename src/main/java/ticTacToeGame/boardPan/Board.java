@@ -5,15 +5,23 @@ import ticTacToeGame.position.Position;
 import java.util.stream.IntStream;
 
 public class Board {
-    private String[][] pan;
+    private String[][] content;
 
     public Board() {
-        this.pan = initializeBoard();
-
+        this.content = initializeBoard();
     }
 
-    public String[][] pan() {
-        return pan;
+    public String[][] content() {
+        return content;
+    }
+
+    public boolean isCellEmpty(Position position) {
+        return content[position.x()][position.y()] == "-";
+    }
+
+    public String[][] markCell(Position position, String mark) {
+        content[position.x()][position.y()] = mark;
+        return content;
     }
 
     private String[][] initializeBoard() {
@@ -21,15 +29,6 @@ public class Board {
         IntStream.range(0, 3).forEach(
                 row -> IntStream.range(0, 3).forEach(col -> pan[row][col] = "-")
         );
-        return pan;
-    }
-
-    public boolean isCellEmpty(Position position) {
-        return pan[position.row()][position.col()] == "-";
-    }
-
-    public String[][] markCell(Position position, String mark) {
-        pan[position.row()][position.col()] = mark;
         return pan;
     }
 }

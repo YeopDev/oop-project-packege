@@ -4,7 +4,7 @@ import ticTacToeGame.position.Position;
 
 import java.util.Random;
 
-public class RandomPosition implements RandomPositionPolicy {
+public class CreatePosition implements CreatePositionPolicy {
     private static final Random random = new Random();
 
     @Override

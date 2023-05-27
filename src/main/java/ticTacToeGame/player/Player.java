@@ -4,16 +4,19 @@ import ticTacToeGame.boardPan.Board;
 import ticTacToeGame.position.Position;
 
 public class Player {
-    private final String PLAYER_MARK = "P";
+    private String name;
+    public Player(String name){
+        this.name = name;
+    }
 
-    public String PLAYER_MARK() {
-        return PLAYER_MARK;
+    public String name() {
+        return name;
     }
 
     public String[][] mark(Board board, Position position) {
         if (!board.isCellEmpty(position)) {
-            throw new IllegalArgumentException("값을 잘못 입력하셨습니다.");
+            throw new IllegalArgumentException("이미 들어있는 값을 할당 받았습니다.");
         }
-        return board.markCell(position, PLAYER_MARK);
+        return board.markCell(position, name);
     }
 }

@@ -15,10 +15,10 @@ public class TicTacToeMain {
     public static void main(String[] args) {
         Board board = new Board();
         System.out.println("게임판을 생성하였습니다.");
-        printBoard(board.pan());
+        printBoard(board.content());
 
-        Computer computer = new Computer();
-        Player player = new Player();
+        Computer computer = new Computer("C");
+        Player player = new Player("P");
 
         while (!gameOver) {
             System.out.println("player가 x값을 입력합니다.");
@@ -29,14 +29,14 @@ public class TicTacToeMain {
 
             System.out.println("player가 mark 합니다.");
             printBoard(player.mark(board, position));
-            if (hasWinner(board.pan(), player.PLAYER_MARK())) {
+            if (hasWinner(board.content(), player.name())) {
                 System.out.println("player가 이겼습니다.");
                 break;
             }
 
             System.out.println("computer가 mark 합니다.");
             printBoard(computer.mark(board));
-            if (hasWinner(board.pan(), computer.COMPUTER_MARK())) {
+            if (hasWinner(board.content(), computer.name())) {
                 System.out.println("computer가 이겼습니다.");
                 break;
             }
@@ -46,17 +46,17 @@ public class TicTacToeMain {
         }
     }
 
-    public static void printBoard(String[][] pan) {
-        if (hasGameOver(pan)) {
+    public static void printBoard(String[][] content) {
+        if (hasGameOver(content)) {
             gameOver = true;
         }
-        Arrays.stream(pan).forEach(row -> System.out.println(String.join("\t", row)));
+        Arrays.stream(content).forEach(row -> System.out.println(String.join("\t", row)));
     }
 
-    public static boolean hasGameOver(String[][] pan) {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                if (pan[row][col] == "-") {
+    public static boolean hasGameOver(String[][] content) {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if (content[x][y] == "-") {
                     return false;
                 }
             }
@@ -64,25 +64,24 @@ public class TicTacToeMain {
         return true;
     }
 
-    public static boolean hasWinner(String[][] pan, String mark) {
-        // Check rows
-        for (int row = 0; row < 3; row++) {
-            if (pan[row][0] == mark && pan[row][1] == mark && pan[row][2] == mark) {
+    public static boolean hasWinner(String[][] content, String mark) {
+        for (int x = 0; x < 3; x++) {
+            if (content[x][0] == mark && content[x][1] == mark && content[x][2] == mark) {
                 return true;
             }
         }
 
-        for (int col = 0; col < 3; col++) {
-            if (pan[0][col] == mark && pan[1][col] == mark && pan[2][col] == mark) {
+        for (int y = 0; y < 3; y++) {
+            if (content[0][y] == mark && content[1][y] == mark && content[2][y] == mark) {
                 return true;
             }
         }
 
-        if (pan[0][0] == mark && pan[1][1] == mark && pan[2][2] == mark) {
+        if (content[0][0] == mark && content[1][1] == mark && content[2][2] == mark) {
             return true;
         }
 
-        if (pan[0][2] == mark && pan[1][1] == mark && pan[2][0] == mark) {
+        if (content[0][2] == mark && content[1][1] == mark && content[2][0] == mark) {
             return true;
         }
 
