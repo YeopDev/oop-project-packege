@@ -3,12 +3,12 @@ package carRacing;
 import static java.util.Objects.isNull;
 
 public class Car {
-        private final MovePolicy movePolicy;
         private String name;
         private int distance;
+        private final MovePolicy movePolicy;
 
         public Car(String name, int distance, MovePolicy movePolicy) {
-            if (isNull(name) || name.equals(" ")) {
+            if (isNull(name) || name.isBlank()) {
                 throw new IllegalArgumentException("[ERROR] 이름값이 올바르지 않습니다.");
             }
             if (name.length() > 5) {

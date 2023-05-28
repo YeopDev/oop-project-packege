@@ -13,10 +13,6 @@ public class Player {
         this.name = name;
     }
 
-    public String name() {
-        return name;
-    }
-
     public String[][] mark(Board board, Position position) {
         if (!board.isCellEmpty(position)) {
             throw new IllegalArgumentException("이미 mark 되어있는 값을 전달 받았습니다.");

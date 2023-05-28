@@ -27,7 +27,7 @@ public class Board {
     private String[][] initializeBoard() {
         String[][] pan = new String[3][3];
         IntStream.range(0, 3).forEach(
-                row -> IntStream.range(0, 3).forEach(col -> pan[row][col] = "-")
+                x -> IntStream.range(0, 3).forEach(y -> pan[x][y] = "-")
         );
         return pan;
     }

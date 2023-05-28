@@ -7,16 +7,12 @@ import static java.util.Objects.isNull;
 
 public class Computer {
     private String name;
-    private CreatePositionPolicy createPositionPolicy;
+    private final CreatePositionPolicy createPositionPolicy;
 
     public Computer(String name, CreatePositionPolicy createPositionPolicy) {
         validate(name);
         this.name = name;
         this.createPositionPolicy = createPositionPolicy;
-    }
-
-    public String name() {
-        return name;
     }
 
     public String[][] mark(Board board) {

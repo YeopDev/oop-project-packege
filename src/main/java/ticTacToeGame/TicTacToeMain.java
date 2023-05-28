@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class TicTacToeMain {
     private final static Scanner sc = new Scanner(System.in);
+    private final static String PLAYER_MARK = "P";
+    private final static String COMPUTER_MARK = "C";
     private static boolean gameOver = false;
 
     public static void main(String[] args) {
@@ -18,8 +20,8 @@ public class TicTacToeMain {
         System.out.println("게임판을 생성하였습니다.");
         printBoard(board.content());
 
-        Computer computer = new Computer("C", new CreatePosition());
-        Player player = new Player("P");
+        Computer computer = new Computer(COMPUTER_MARK, new CreatePosition());
+        Player player = new Player(PLAYER_MARK);
 
         while (!gameOver) {
             System.out.println("player가 x값을 입력합니다.");
@@ -30,17 +32,18 @@ public class TicTacToeMain {
 
             System.out.println("player가 mark 합니다.");
             printBoard(player.mark(board, position));
-            if (hasWinner(board.content(), player.name())) {
+            if (hasWinner(board.content(), PLAYER_MARK)) {
                 System.out.println("player가 이겼습니다.");
                 break;
             }
 
             System.out.println("computer가 mark 합니다.");
             printBoard(computer.mark(board));
-            if (hasWinner(board.content(), computer.name())) {
+            if (hasWinner(board.content(), COMPUTER_MARK)) {
                 System.out.println("computer가 이겼습니다.");
                 break;
             }
+
             if (gameOver) {
                 break;
             }
@@ -51,7 +54,7 @@ public class TicTacToeMain {
         if (hasGameOver(content)) {
             gameOver = true;
         }
-        Arrays.stream(content).forEach(row -> System.out.println(String.join("\t", row)));
+        Arrays.stream(content).forEach(x -> System.out.println(String.join("\t", x)));
     }
 
     public static boolean hasGameOver(String[][] content) {
