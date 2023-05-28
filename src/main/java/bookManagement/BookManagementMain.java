@@ -2,6 +2,7 @@ package bookManagement;
 
 import bookManagement.Library.Book.Book;
 import bookManagement.Library.Book.BookStockQuantity;
+import bookManagement.Library.BookManagement;
 import bookManagement.Library.Library;
 import bookManagement.Library.Member.Member;
 

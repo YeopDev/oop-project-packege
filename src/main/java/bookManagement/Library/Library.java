@@ -6,13 +6,18 @@ import bookManagement.Library.Book.BookStockQuantity;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Library(List<BookStockQuantity> bookStockQuantities) {
+public class Library extends BookManagement{
+    private List<BookStockQuantity> bookStockQuantities;
 
-    public Library {
+    public Library(List<BookStockQuantity> bookStockQuantities) {
         if (bookStockQuantities.isEmpty()) {
             throw new IllegalArgumentException("리스트가 비어있습니다.");
         }
-        bookStockQuantities = new ArrayList<>(bookStockQuantities);
+        this.bookStockQuantities = new ArrayList<>(bookStockQuantities);
+    }
+
+    public List<BookStockQuantity> bookStockQuantities() {
+        return bookStockQuantities;
     }
 
     public boolean isChecked(List<Long> ids) {
@@ -26,11 +31,20 @@ public record Library(List<BookStockQuantity> bookStockQuantities) {
                 .toList();
     }
 
-    public Library borrowedBooks(List<Long> borrowedIds) {
-        return new BorrowedBooks(bookStockQuantities, borrowedIds).bookStateChange();
+    @Override
+    public Library bookStateChange() {
+        return super.bookStateChange();
     }
 
-    public Library returnBooks(List<Long> returnIds) {
-        return new ReturnBooks(bookStockQuantities, returnIds).bookStateChange();
+    @Override
+    public void setLibraryBookManagementStrategy(LibraryBookManagementStrategy libraryBookManagementStrategy) {
+        super.setLibraryBookManagementStrategy(libraryBookManagementStrategy);
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "bookStockQuantities=" + bookStockQuantities +
+                '}';
     }
 }
