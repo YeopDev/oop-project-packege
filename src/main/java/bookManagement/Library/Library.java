@@ -6,7 +6,7 @@ import bookManagement.Library.Book.BookStockQuantity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Library extends BookManagement{
+public class Library{
     private List<BookStockQuantity> bookStockQuantities;
 
     public Library(List<BookStockQuantity> bookStockQuantities) {
@@ -20,31 +20,26 @@ public class Library extends BookManagement{
         return bookStockQuantities;
     }
 
-    public boolean isChecked(List<Long> ids) {
-        return !ids.isEmpty();
-    }
-
-    public List<Book> displayBooks(List<Long> ids) {
+    public List<Long> borrowedIds(List<Long> ids) {
+        if (!isChecked(ids)) {
+            throw new IllegalArgumentException("대출하려는 책이 없습니다.");
+        }
         return bookStockQuantities.stream()
                 .filter(bookStockQuantity -> ids.contains(bookStockQuantity.returnBookId()))
                 .map(BookStockQuantity::book)
+                .map(Book::id)
                 .toList();
     }
 
-    @Override
-    public Library bookStateChange() {
-        return super.bookStateChange();
+    public Library bookStateChange(LibraryBookManagementStrategy libraryBookManagementStrategy){
+        return libraryBookManagementStrategy.bookStateChange();
     }
 
-    @Override
-    public void setLibraryBookManagementStrategy(LibraryBookManagementStrategy libraryBookManagementStrategy) {
-        super.setLibraryBookManagementStrategy(libraryBookManagementStrategy);
+    public List<BookStockQuantity> displayLoanStatus(){
+        return bookStockQuantities().stream().filter(id -> id.stockQuantity() == 0).toList();
     }
 
-    @Override
-    public String toString() {
-        return "Library{" +
-                "bookStockQuantities=" + bookStockQuantities +
-                '}';
+    public boolean isChecked(List<Long> ids) {
+        return !ids.isEmpty();
     }
 }

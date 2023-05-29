@@ -2,7 +2,6 @@ package bookManagement;
 
 import bookManagement.Library.Book.Book;
 import bookManagement.Library.Book.BookStockQuantity;
-import bookManagement.Library.BookManagement;
 import bookManagement.Library.Library;
 import bookManagement.Library.Member.Member;
 
@@ -38,12 +37,9 @@ public class BookManagementMain {
 
         System.out.println(member.name() + "님이 도서를 대출 합니다.");
         library = member.borrowBooks(library, ids);
-        List<Book> borrowedBooks = member.showBooks(library, ids);
-        System.out.println("대출 한 책 목록: " + borrowedBooks.stream().map(Book::title).toList());
-        System.out.println("도서현황: " + library.bookStockQuantities().stream().filter(id -> id.stockQuantity() == 0).toList());
-
+        System.out.println("대출 도서현황: " + library.displayLoanStatus());
         System.out.println(member.name() + "님이 도서를 반납 합니다.");
-        library = member.returnBook(library, borrowedBooks.stream().map(Book::id).toList());
-        System.out.println("도서현황: " + library);
+        library = member.returnBook(library, library.borrowedIds(ids));
+        System.out.println("대출 도서현황: " + library.displayLoanStatus());
     }
 }

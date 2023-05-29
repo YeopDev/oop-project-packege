@@ -20,26 +20,17 @@ public record Member(Long id, String name) {
         }
     }
 
-    public List<Book> showBooks(Library library, List<Long> ids) {
-        if (!library.isChecked(ids)) {
-            throw new IllegalArgumentException("대출하려는 책이 없습니다.");
-        }
-        return library.displayBooks(ids);
-    }
-
     public Library borrowBooks(Library library, List<Long> borrowedIds) {
         if (!library.isChecked(borrowedIds)) {
             throw new IllegalArgumentException("대출하려는 책이 없습니다.");
         }
-        library.setLibraryBookManagementStrategy(new BorrowedBooks(library.bookStockQuantities(),borrowedIds));
-        return library.bookStateChange();
+        return library.bookStateChange(new BorrowedBooks(library.bookStockQuantities(),borrowedIds));
     }
 
     public Library returnBook(Library library, List<Long> returnIds) {
         if (!library.isChecked(returnIds)) {
             throw new IllegalArgumentException("반납하려는 책이 없습니다.");
         }
-        library.setLibraryBookManagementStrategy(new ReturnBooks(library.bookStockQuantities(),returnIds));
-        return library.bookStateChange();
+        return library.bookStateChange(new ReturnBooks(library.bookStockQuantities(),returnIds));
     }
 }
