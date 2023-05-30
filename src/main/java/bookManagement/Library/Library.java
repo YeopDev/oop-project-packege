@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Library{
     private List<BookStockQuantity> bookStockQuantities;
+    private LibraryBookManagementStrategy libraryBookManagementStrategy;
 
     public Library(List<BookStockQuantity> bookStockQuantities) {
         if (bookStockQuantities.isEmpty()) {
@@ -31,8 +32,12 @@ public class Library{
                 .toList();
     }
 
-    public Library bookStateChange(LibraryBookManagementStrategy libraryBookManagementStrategy){
-        return libraryBookManagementStrategy.bookStateChange();
+    public void setStrategy(LibraryBookManagementStrategy libraryBookManagementStrategy){
+        this.libraryBookManagementStrategy = libraryBookManagementStrategy;
+    }
+
+    public Library bookStateChange(){
+        return this.libraryBookManagementStrategy.bookStateChange();
     }
 
     public List<BookStockQuantity> displayLoanStatus(){

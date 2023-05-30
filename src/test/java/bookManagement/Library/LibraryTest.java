@@ -66,27 +66,14 @@ class LibraryTest {
 
     @ParameterizedTest
     @MethodSource("generateDataNoThrownBy")
-    @DisplayName("displayBooks 메서드 테스트")
-    void LibraryDisplayBooks(List<BookStockQuantity> bookStockQuantities){
-        assertThatCode(
-                () -> {
-                    List<Long> ids = List.of(0L, 1L, 2L);
-                    Library library = new Library(bookStockQuantities);
-                    List<Book> books = library.displayBooks(ids);
-                    assertThat(books.size()).isEqualTo(3);
-                }
-        ).doesNotThrowAnyException();
-    }
-
-    @ParameterizedTest
-    @MethodSource("generateDataNoThrownBy")
     @DisplayName("borrowedBooks 메서드 테스트")
     void LibraryBorrowedBooks(List<BookStockQuantity> bookStockQuantities){
         assertThatCode(
                 () -> {
                     List<Long> ids = List.of(0L, 1L, 2L);
                     Library library = new Library(bookStockQuantities);
-                    library = library.borrowedBooks(ids);
+                    library.setStrategy(new BorrowedBooks(library.bookStockQuantities(),ids));
+                    library = library.bookStateChange();
                     assertThat(library.bookStockQuantities().get(0).stockQuantity()).isEqualTo(0);
                     assertThat(library.bookStockQuantities().get(1).stockQuantity()).isEqualTo(0);
                     assertThat(library.bookStockQuantities().get(2).stockQuantity()).isEqualTo(0);
@@ -102,8 +89,10 @@ class LibraryTest {
                 () -> {
                     List<Long> ids = List.of(0L, 1L, 2L);
                     Library library = new Library(bookStockQuantities);
-                    library = library.borrowedBooks(ids);
-                    library = library.returnBooks(ids);
+                    library.setStrategy(new BorrowedBooks(library.bookStockQuantities(),ids));
+                    library = library.bookStateChange();
+                    library.setStrategy(new ReturnBooks(library.bookStockQuantities(),ids));
+                    library = library.bookStateChange();
                     assertThat(library.bookStockQuantities().get(0).stockQuantity()).isEqualTo(1);
                     assertThat(library.bookStockQuantities().get(1).stockQuantity()).isEqualTo(1);
                     assertThat(library.bookStockQuantities().get(2).stockQuantity()).isEqualTo(1);

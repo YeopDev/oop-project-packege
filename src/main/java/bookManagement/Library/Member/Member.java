@@ -3,6 +3,7 @@ package bookManagement.Library.Member;
 import bookManagement.Library.Book.Book;
 import bookManagement.Library.BorrowedBooks;
 import bookManagement.Library.Library;
+import bookManagement.Library.LibraryBookManagementStrategy;
 import bookManagement.Library.ReturnBooks;
 
 import java.util.List;
@@ -24,13 +25,15 @@ public record Member(Long id, String name) {
         if (!library.isChecked(borrowedIds)) {
             throw new IllegalArgumentException("대출하려는 책이 없습니다.");
         }
-        return library.bookStateChange(new BorrowedBooks(library.bookStockQuantities(),borrowedIds));
+        library.setStrategy(new BorrowedBooks(library.bookStockQuantities(),borrowedIds));
+        return library.bookStateChange();
     }
 
     public Library returnBook(Library library, List<Long> returnIds) {
         if (!library.isChecked(returnIds)) {
             throw new IllegalArgumentException("반납하려는 책이 없습니다.");
         }
-        return library.bookStateChange(new ReturnBooks(library.bookStockQuantities(),returnIds));
+        library.setStrategy(new ReturnBooks(library.bookStockQuantities(),returnIds));
+        return library.bookStateChange();
     }
 }
