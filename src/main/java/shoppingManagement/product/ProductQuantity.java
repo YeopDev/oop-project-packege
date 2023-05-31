@@ -1,7 +1,6 @@
 package shoppingManagement.product;
 
 public record ProductQuantity(Product product, int quantity) {
-
     public ProductQuantity {
         validate(quantity);
     }
@@ -15,7 +14,7 @@ public record ProductQuantity(Product product, int quantity) {
     }
 
     public ProductQuantity decreaseQuantity(int quantity) {
-        return new ProductQuantity(product,this.quantity-quantity);
+        return new ProductQuantity(product, this.quantity - quantity);
     }
 
     private void validate(int quantity) {

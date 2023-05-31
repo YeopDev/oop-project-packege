@@ -1,15 +1,14 @@
 package shoppingManagement.cart;
 
-import shoppingManagement.product.Product;
 import shoppingManagement.product.ProductQuantity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
-    private List<ProductQuantity> productQuantities;
+    private final List<ProductQuantity> productQuantities;
 
-    public Cart(){
+    public Cart() {
         this.productQuantities = new ArrayList<>();
     }
 
@@ -17,11 +16,11 @@ public class Cart {
         return productQuantities;
     }
 
-    public void addProduct(Product product, int quantity) {
-        productQuantities.add(new ProductQuantity(product, quantity));
+    public void addProduct(ProductQuantity productQuantity) {
+        productQuantities.add(productQuantity);
     }
 
-    public int getTotalPrice(){
+    public int getTotalPrice() {
         return productQuantities.stream()
                 .mapToInt(ProductQuantity::getTotalPrice)
                 .sum();

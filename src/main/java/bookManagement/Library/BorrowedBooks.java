@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowedBooks implements LibraryBookManagementStrategy {
-
     private List<BookStockQuantity> bookStockQuantities;
     private List<Long> borrowedIds;
 
