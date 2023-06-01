@@ -1,6 +1,5 @@
 package shoppingManagement;
 
-import shoppingManagement.cart.Cart;
 import shoppingManagement.customer.Customer;
 import shoppingManagement.customer.payment.CashPaymentStrategy;
 import shoppingManagement.customer.payment.CreditCardPaymentStrategy;
@@ -13,58 +12,73 @@ import java.util.Scanner;
 
 public class ShoppingMain {
     private final static Scanner sc = new Scanner(System.in);
+    private final static String REGEX = "(o|q|order|quit)";
 
     public static void main(String[] args) {
         List<ProductQuantity> productQuantities = List.of(
-                new ProductQuantity(new Product(0L, "상품1", 10000), 2),
-                new ProductQuantity(new Product(1L, "상품2", 20000), 1),
-                new ProductQuantity(new Product(2L, "상품3", 30000), 3),
-                new ProductQuantity(new Product(3L, "상품4", 40000), 1),
-                new ProductQuantity(new Product(4L, "상품5", 50000), 1)
+                new ProductQuantity(Product.ITEM1, 2),
+                new ProductQuantity(Product.ITEM2, 1),
+                new ProductQuantity(Product.ITEM3, 3),
+                new ProductQuantity(Product.ITEM4, 3),
+                new ProductQuantity(Product.ITEM5, 3)
         );
 
         Order order = new Order(productQuantities);
 
-        System.out.println("상품 목록:");
-        for (ProductQuantity productQuantity : productQuantities) {
-            System.out.println(productQuantity.product().id() + "-" + productQuantity.product().name() + " - " + productQuantity.product().price() + "원" + " - " + productQuantity.quantity() + "개");
-        }
-
-        Cart cart = new Cart();
-        while (true) {
-            System.out.println("상품번호를 선택해 주세요.");
-            Long id = sc.nextLong();
-            System.out.println("상품수량을 선택해 주세요.");
-            int quantity = sc.nextInt();
-
-            Product product = productQuantities.stream()
-                    .map(ProductQuantity::product)
-                    .filter(item -> item.hasProduct(id))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("상품 번호가 잘못되었습니다."));
-
-            cart.addProduct(new ProductQuantity(product, quantity));
-
-            System.out.println("장바구니에 상품을 더 담으겠습니까?(Y/N)");
-            sc.nextLine();
-            if (sc.nextLine().equalsIgnoreCase("N")) {
-                break;
-            }
-        }
-
         Customer customer = new Customer("yeop", 100_000);
         customer.setPaymentStrategy(new CashPaymentStrategy(100_000));
 
-        System.out.println("""
-                결제 방식을 선택하세요.
-                1. 현금 결제(default)
-                2. 신용카드 결제
-                """);
-        if (sc.nextInt() == 2) {
-            customer.setPaymentStrategy(new CreditCardPaymentStrategy("1234567890", "12/25", "123"));
-        }
+        while (true) {
+            System.out.print("입력(o[order]: 주문, q[quit]: 종료) :");
+            String target = sc.nextLine().toLowerCase();
 
-        System.out.println("주문을 진행합니다.");
-        order.placeOrder(customer, cart);
+            if (!target.matches(REGEX)) {
+                System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+                continue;
+            }
+
+            if (List.of("q", "quit").contains(target)) {
+                System.out.println("고객님의 주문 감사합니다.");
+                break;
+            }
+
+            System.out.println("상품 목록:");
+            for (ProductQuantity productQuantity : productQuantities) {
+                System.out.println(productQuantity.product().id() + "-" + productQuantity.product().name() + " - " + productQuantity.product().price() + "원" + " - " + productQuantity.quantity() + "개");
+            }
+
+
+            while (true) {
+                System.out.print("상품번호:");
+                String id = sc.nextLine();
+                System.out.print("상품수량:");
+                String quantity = sc.nextLine();
+
+                if (id.isBlank() && quantity.isBlank()) {
+                    break;
+                }
+
+                Product product = productQuantities.stream()
+                        .map(ProductQuantity::product)
+                        .filter(item -> item.hasProduct(Long.parseLong(id)))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("상품 번호가 잘못되었습니다."));
+
+                customer.addToCart(product, Integer.parseInt(quantity));
+            }
+
+            System.out.println("""
+                    결제 방식을 선택하세요.
+                    1. 현금 결제(default)
+                    2. 신용카드 결제""");
+
+            String fix = sc.nextLine();
+            if (fix.equals("2")) {
+                customer.setPaymentStrategy(new CreditCardPaymentStrategy("1234567890", "12/25", "123"));
+            }
+
+            order.placeOrder(customer);
+            productQuantities = order.update(customer);
+        }
     }
 }

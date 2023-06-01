@@ -1,18 +1,32 @@
 package shoppingManagement.customer;
 
+import shoppingManagement.cart.Cart;
 import shoppingManagement.customer.payment.PaymentStrategy;
+import shoppingManagement.product.Product;
+import shoppingManagement.product.ProductQuantity;
 
 import static java.util.Objects.isNull;
 
 public class Customer {
-    private String name;//이름
-    private int money;//소지금
+    private final String name;//이름
+    private final int money;//소지금
     private PaymentStrategy paymentStrategy; // 결제방법 및 결제진행
+
+    private final Cart cart;
 
     public Customer(String name, int money) {
         validate(name, money);
         this.name = name;
         this.money = money;
+        this.cart = new Cart();
+    }
+
+    public Cart cart() {
+        return cart;
+    }
+
+    public void addToCart(Product product, int quantity) {
+        cart.addProduct(new ProductQuantity(product, quantity));
     }
 
     public void setPaymentStrategy(PaymentStrategy paymentStrategy) {

@@ -6,7 +6,7 @@ public record ProductQuantity(Product product, int quantity) {
     }
 
     public int getTotalPrice() {
-        return product.price() * quantity;
+        return this.product.price() * this.quantity;
     }
 
     public boolean hasQuantity(int quantity) {
@@ -14,7 +14,7 @@ public record ProductQuantity(Product product, int quantity) {
     }
 
     public ProductQuantity decreaseQuantity(int quantity) {
-        return new ProductQuantity(product, this.quantity - quantity);
+        return new ProductQuantity(this.product, this.quantity - quantity);
     }
 
     private void validate(int quantity) {
