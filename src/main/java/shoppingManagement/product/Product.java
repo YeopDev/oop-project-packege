@@ -2,19 +2,12 @@ package shoppingManagement.product;
 
 import static java.util.Objects.isNull;
 
-public enum Product {
-
-    ITEM1(0L, "상품1", 1000),
-    ITEM2(1L, "상품2", 2000),
-    ITEM3(2L, "상품3", 3000),
-    ITEM4(3L, "상품3", 3000),
-    ITEM5(4L, "상품3", 3000);
-
+public class Product {
     private final Long id;
     private final String name;
     private final int price;
 
-    Product(Long id, String name, int price) {
+    public Product(Long id, String name, int price) {
         validate(id, name, price);
         this.id = id;
         this.name = name;
@@ -23,6 +16,10 @@ public enum Product {
 
     public Long id() {
         return id;
+    }
+
+    public String name() {
+        return name;
     }
 
     public int price() {

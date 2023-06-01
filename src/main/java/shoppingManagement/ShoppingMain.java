@@ -16,11 +16,11 @@ public class ShoppingMain {
 
     public static void main(String[] args) {
         List<ProductQuantity> productQuantities = List.of(
-                new ProductQuantity(Product.ITEM1, 2),
-                new ProductQuantity(Product.ITEM2, 1),
-                new ProductQuantity(Product.ITEM3, 3),
-                new ProductQuantity(Product.ITEM4, 3),
-                new ProductQuantity(Product.ITEM5, 3)
+                new ProductQuantity(new Product(0L, "상품1", 1000), 2),
+                new ProductQuantity(new Product(1L, "상품2", 2000), 2),
+                new ProductQuantity(new Product(2L, "상품3", 3000), 3),
+                new ProductQuantity(new Product(3L, "상품3", 3000), 3),
+                new ProductQuantity(new Product(4L, "상품3", 3000), 3)
         );
 
         Order order = new Order(productQuantities);
