@@ -12,6 +12,9 @@ public class Order {
     private List<ProductQuantity> productQuantityList;
 
     public Order(List<ProductQuantity> productQuantityList) {
+        if(productQuantityList.isEmpty()){
+            throw new IllegalArgumentException("리스트가 비어있습니다.");
+        }
         this.productQuantityList = new ArrayList<>(productQuantityList);
     }
 

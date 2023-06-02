@@ -25,6 +25,10 @@ public class Customer {
         return cart;
     }
 
+    public int money() {
+        return money;
+    }
+
     public void addToCart(Product product, int quantity) {
         cart.addProduct(new ProductQuantity(product, quantity));
     }

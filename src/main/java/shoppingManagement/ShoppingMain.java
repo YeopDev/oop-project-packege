@@ -26,7 +26,7 @@ public class ShoppingMain {
         Order order = new Order(productQuantities);
 
         Customer customer = new Customer("yeop", 100_000);
-        customer.setPaymentStrategy(new CashPaymentStrategy(100_000));
+        customer.setPaymentStrategy(new CashPaymentStrategy(customer.money()));
 
         while (true) {
             System.out.print("입력(o[order]: 주문, q[quit]: 종료) :");
