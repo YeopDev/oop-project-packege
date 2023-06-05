@@ -1,20 +1,32 @@
 package movieTicketExample.seat;
 
-public record Seat(int x, int y, int price) {
+import movieTicketExample.position.Position;
 
-    public Seat {
-        validate(x, y, price);
+public class Seat {
+    private final Position position;
+    private final String status;
+
+    public Seat(Position position, String status) {
+        validate(status);
+        this.position = position;
+        this.status = status;
     }
 
-    private void validate(int x, int y, int price) {
-        if (x < 0) {
-            throw new IllegalArgumentException("좌석좌표 x는 0보다 작을 수 없습니다.");
-        }
-        if (y < 0) {
-            throw new IllegalArgumentException("좌석좌표 y는 0보다 작을 수 없습니다.");
-        }
-        if (price < 0) {
-            throw new IllegalArgumentException("영화가격은 0보다 작을 수 없습니다.");
+    public String status() {
+        return status;
+    }
+
+    public boolean hasPosition(Position position) {
+        return this.position.samePosition(position);
+    }
+
+    public boolean hasStatus(String status) {
+        return this.status.equals(status);
+    }
+
+    private void validate(String status) {
+        if (status.isBlank()) {
+            throw new IllegalArgumentException("상태값은 비어있을 수 없습니다.");
         }
     }
 }
