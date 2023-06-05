@@ -1,32 +1,42 @@
 package movieTicketExample.theater;
 
 import movieTicketExample.movie.Movie;
+import movieTicketExample.position.Position;
 import movieTicketExample.seat.Seat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Theater {
-    private List<Movie> movies;
-    private Map<Movie, Seat[][]> seatingMap;
+    private final Long number;
+    private final Movie movie;
+    private final Seat[][] seats;
 
-    public Theater() {
-        this.movies = new ArrayList<>();
-        this.seatingMap = new HashMap<>();
+    public Theater(Long number, Movie movie) {
+        this.number = number;
+        this.movie = movie;
+        this.seats = createSeats();
     }
 
-    public void addMovie(Movie movie) {
-        movies.add(movie);
-        seatingMap.put(movie, new Seat[10][10]); // Assuming a theater has 10 rows and 10 columns of seats
+    public Seat[][] seats() {
+        return this.seats;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public boolean hasSeat(Position position) {
+        return this.seats[position.x()][position.y()].hasStatus("-");
     }
 
-    public Seat[][] getSeatingMap(Movie movie) {
-        return seatingMap.get(movie);
+    public Seat[][] markSeat(Position position, String mark) {
+        this.seats[position.x()][position.y()] = new Seat(position,mark);
+        return this.seats;
+    }
+
+    private Seat[][] createSeats() {
+        Seat[][] createSeats = new Seat[5][5];
+        Position position = new Position(5,5);
+        for (int x = 0; x < position.x(); x++) {
+            for (int y = 0; y < position.y(); y++) {
+                Seat seat = new Seat(position,"-");
+                createSeats[x][y] = seat;
+            }
+        }
+        return createSeats;
     }
 }
