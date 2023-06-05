@@ -10,13 +10,10 @@ public class TheaterServiceImpl implements TheaterService{
     private final Movie movie;
     private final Seat[][] seats;
 
-    private final SeatFactory seatFactory;
-
     public TheaterServiceImpl(Long id, Movie movie) {
         this.id = id;
         this.movie = movie;
-        this.seats = createSeats();
-        this.seatFactory = new SeatFactory();
+        this.seats = new SeatFactory().createSeat(new Position(5,5),"-");
     }
 
     @Override
@@ -45,9 +42,5 @@ public class TheaterServiceImpl implements TheaterService{
     public Seat[][] markSeat(Position position, String mark) {
         this.seats[position.x()][position.y()] = new Seat(position, mark);
         return this.seats;
-    }
-
-    private Seat[][] createSeats() {
-        return this.seatFactory.createSeat(new Position(5,5),"-");
     }
 }
