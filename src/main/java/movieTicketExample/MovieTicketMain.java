@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import static java.util.stream.Collectors.joining;
 
-public class movieTicketMain {
+public class MovieTicketMain {
     private final static Scanner scanner = new Scanner(System.in);
     private final static String CUSTOMER_MARK = "V";
 
