@@ -16,10 +16,6 @@ public class Seat {
         return status;
     }
 
-    public boolean hasPosition(Position position) {
-        return this.position.samePosition(position);
-    }
-
     public boolean hasStatus(String status) {
         return this.status.equals(status);
     }

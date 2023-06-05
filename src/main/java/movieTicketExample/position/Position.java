@@ -5,10 +5,6 @@ public record Position(int x, int y) {
         validate(x, y);
     }
 
-    public boolean samePosition(Position position) {
-        return this.equals(position);
-    }
-
     private void validate(int x, int y) {
         if (x < 0) {
             throw new IllegalArgumentException("x는 0보다 작을 수 없습니다.");

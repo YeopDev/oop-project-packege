@@ -3,7 +3,6 @@ package movieTicketExample.movie;
 import static java.util.Objects.isNull;
 
 public record Movie(Long id, String title) {
-
     public Movie {
         validate(id, title);
     }
