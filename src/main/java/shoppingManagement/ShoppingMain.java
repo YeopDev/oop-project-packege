@@ -3,6 +3,7 @@ package shoppingManagement;
 import shoppingManagement.customer.Customer;
 import shoppingManagement.customer.payment.CashPaymentStrategy;
 import shoppingManagement.customer.payment.CreditCardPaymentStrategy;
+import shoppingManagement.customer.payment.PaymentStrategy;
 import shoppingManagement.order.Order;
 import shoppingManagement.product.Product;
 import shoppingManagement.product.ProductQuantity;
@@ -25,8 +26,8 @@ public class ShoppingMain {
 
         Order order = new Order(productQuantities);
 
-        Customer customer = new Customer("yeop", 100_000);
-        customer.setPaymentStrategy(new CashPaymentStrategy(customer.money()));
+        PaymentStrategy paymentStrategy = new CashPaymentStrategy(100_000);
+        Customer customer = new Customer("yeop", paymentStrategy);
 
         while (true) {
             System.out.print("입력(o[order]: 주문, q[quit]: 종료) :");
