@@ -1,4 +1,4 @@
-package shoppingManagement.order;
+package bookManagement.shoppingManagement.order;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +9,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import shoppingManagement.cart.Cart;
 import shoppingManagement.customer.Customer;
 import shoppingManagement.customer.payment.CashPaymentStrategy;
+import shoppingManagement.customer.payment.CreditCardPaymentStrategy;
+import shoppingManagement.order.Order;
 import shoppingManagement.product.Product;
 import shoppingManagement.product.ProductQuantity;
 
@@ -62,10 +64,10 @@ class OrderTest {
         Assertions.assertThatCode(
                 () -> {
                     Order order = new Order(productQuantities);
-                    Customer customer = new Customer("yeop", 10_000);
+                    Customer customer = new Customer("yeop", new CreditCardPaymentStrategy("1234567890", "12/25", "123"));
                     customer.addToCart(new Product(0L,"상품1", 1000), 1);
                     customer.addToCart(new Product(1L,"상품2", 2000), 1);
-                    customer.setPaymentStrategy(new CashPaymentStrategy(customer.money()));
+                    customer.setPaymentStrategy(new CashPaymentStrategy(10_000));
                     order.placeOrder(customer);
                     List<ProductQuantity> updateList = order.update(customer);
                     Assertions.assertThat(updateList.get(0).quantity()).isEqualTo(1);

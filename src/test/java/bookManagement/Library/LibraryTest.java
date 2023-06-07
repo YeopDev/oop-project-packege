@@ -26,7 +26,8 @@ class LibraryTest {
 
     static Stream<Arguments> generateDataNoThrownBy() {
         return Stream.of(
-                Arguments.of(Arrays.asList(new BookStockQuantity(new Book(0L, "객체지향의 사실과 오해", "human1", "위키북스", 25_000), 1),
+                Arguments.of(
+                        Arrays.asList(new BookStockQuantity(new Book(0L, "객체지향의 사실과 오해", "human1", "위키북스", 25_000), 1),
                                 new BookStockQuantity(new Book(1L, "객체지향", "human1", "위키북스", 30_000), 1),
                                 new BookStockQuantity(new Book(2L, "혼자 공부하는 운영체제", "human1", "위키북스", 50_000), 1),
                                 new BookStockQuantity(new Book(3L, "혼자 공부하는 네트워크", "human1", "위키북스", 50_000), 1),

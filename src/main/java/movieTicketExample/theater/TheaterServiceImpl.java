@@ -5,7 +5,7 @@ import movieTicketExample.position.Position;
 import movieTicketExample.seat.Seat;
 import movieTicketExample.seat.SeatFactory;
 
-public class TheaterServiceImpl implements TheaterService{
+public class TheaterServiceImpl implements TheaterService {
     private final Long id;
     private final Movie movie;
     private final Seat[][] seats;
@@ -13,12 +13,7 @@ public class TheaterServiceImpl implements TheaterService{
     public TheaterServiceImpl(Long id, Movie movie) {
         this.id = id;
         this.movie = movie;
-        this.seats = new SeatFactory().createSeat(new Position(5,5),"-");
-    }
-
-    @Override
-    public Seat[][] getAllSeats() {
-        return this.seats;
+        this.seats = new SeatFactory().createSeat(new Position(5, 5), "-");
     }
 
     public Long id() {
@@ -31,6 +26,11 @@ public class TheaterServiceImpl implements TheaterService{
 
     public boolean sameId(long id) {
         return this.id.equals(id);
+    }
+
+    @Override
+    public Seat[][] getAllSeats() {
+        return this.seats;
     }
 
     @Override
