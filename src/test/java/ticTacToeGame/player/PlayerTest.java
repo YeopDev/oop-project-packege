@@ -9,7 +9,6 @@ import ticTacToeGame.position.Position;
 import static org.assertj.core.api.Assertions.*;
 
 class PlayerTest {
-
     @ParameterizedTest
     @ValueSource(strings = {"P"})
     @DisplayName("생성자에 올바른 값이 들어왔을 경우")
