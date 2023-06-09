@@ -7,10 +7,6 @@ public interface GamePlayer {
 
     boolean spare();
 
-    int multiply();
-
-    void calculateMultiply(int increase);
-
     void calculate(int increase);
 
     void changeStrike(boolean isStrike);
