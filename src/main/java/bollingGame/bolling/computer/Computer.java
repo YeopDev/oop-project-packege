@@ -8,8 +8,6 @@ public class Computer implements GamePlayer {
     private int score;
     private boolean isStrike;
     private boolean isSpare;
-
-    private int multiply;
     private final RandomRollBall randomRollBall;
 
     public Computer(String name, RandomRollBall randomRollBall) {
@@ -17,7 +15,6 @@ public class Computer implements GamePlayer {
         this.score = 0;
         this.isStrike = false;
         this.isSpare = false;
-        this.multiply = 0;
         this.randomRollBall = randomRollBall;
     }
 
@@ -34,19 +31,6 @@ public class Computer implements GamePlayer {
     @Override
     public boolean spare() {
         return this.isSpare;
-    }
-
-    @Override
-    public int multiply() {
-        return this.multiply;
-    }
-
-    @Override
-    public void calculateMultiply(int increase) {
-        multiply += increase;
-        if(increase == 0){
-            resetMultiply();
-        }
     }
 
     @Override
@@ -67,9 +51,5 @@ public class Computer implements GamePlayer {
     @Override
     public int rollBall() {
         return randomRollBall.rollBall();
-    }
-
-    private void resetMultiply(){
-        multiply = 0;
     }
 }
