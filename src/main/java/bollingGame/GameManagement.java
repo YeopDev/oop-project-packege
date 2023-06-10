@@ -28,7 +28,7 @@ public class GameManagement {
         Frame currentFrame = getCurrentFrame();
 
         if (currentFrame == null || currentFrame.getSecondRoll() == -1) {
-            currentFrame = new Frame(pins, -1);
+            currentFrame = new Frame(pins, 0);
             frames.add(currentFrame);
             return;
         }
