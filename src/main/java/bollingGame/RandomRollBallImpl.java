@@ -1,4 +1,4 @@
-package bollingGame.bolling;
+package bollingGame;
 
 import java.util.Random;
 

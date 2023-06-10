@@ -1,4 +1,4 @@
-package bollingGame.bolling;
+package bollingGame;
 
 @FunctionalInterface
 public interface RandomRollBall {
