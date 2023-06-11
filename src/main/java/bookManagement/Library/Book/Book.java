@@ -3,26 +3,23 @@ package bookManagement.Library.Book;
 import static java.util.Objects.isNull;
 
 public record Book(Long id, String title, String author, String publisher, int price) {
+    private static final int MINIMUM_VALUE = 0;
 
     public Book {
-        if (isNull(id) || id < 0) {
-            throw new IllegalArgumentException("도서번호에 올바르지 않은 값이 할당 되었습니다.");
+        if (isNull(id) || id < MINIMUM_VALUE) {
+            throw new IllegalArgumentException("도서번호는 비어있을 수 없으며, %d 보다 작을 수 없습니다.".formatted(MINIMUM_VALUE));
         }
-        if (isNull(title) || title.isBlank()) {
+        if (title.isBlank()) {
             throw new IllegalArgumentException("도서이름에 올바르지 않은 값이 할당 되었습니다.");
         }
-        if (isNull(author) || author.isBlank()) {
+        if (author.isBlank()) {
             throw new IllegalArgumentException("저자에 올바르지 않은 값이 할당 되었습니다.");
         }
-        if (isNull(publisher) || publisher.isBlank()) {
+        if (publisher.isBlank()) {
             throw new IllegalArgumentException("출판사에 올바르지 않은 값이 할당 되었습니다.");
         }
-        if (price < 0) {
-            throw new IllegalArgumentException("도서 가격에 올바르지 않은 값이 할당 되었습니다.");
+        if (price < MINIMUM_VALUE) {
+            throw new IllegalArgumentException("도서가격은 %d 보다 작을 수 없습니다.".formatted(MINIMUM_VALUE));
         }
-    }
-
-    public Long responseId(){
-        return id;
     }
 }
