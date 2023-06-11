@@ -1,9 +1,7 @@
 package bookManagement.Library.Member;
 
-import bookManagement.Library.Book.Book;
 import bookManagement.Library.BorrowedBooks;
 import bookManagement.Library.Library;
-import bookManagement.Library.LibraryBookManagementStrategy;
 import bookManagement.Library.ReturnBooks;
 
 import java.util.List;
@@ -11,13 +9,14 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 public record Member(Long id, String name) {
+    private static final int MINIMUM_ID = 0;
 
     public Member {
-        if (isNull(id) || id < 0) {
-            throw new IllegalArgumentException("id 값이 올바르지 않습니다.");
+        if (isNull(id) || id < MINIMUM_ID) {
+            throw new IllegalArgumentException("id는 %d 보다 작을 수 없습니다.".formatted(MINIMUM_ID));
         }
-        if (isNull(name) || name.isBlank()) {
-            throw new IllegalArgumentException("회원이름이 올바르지 않습니다.");
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("회원이름은 비어있을 수 없습니다.");
         }
     }
 
