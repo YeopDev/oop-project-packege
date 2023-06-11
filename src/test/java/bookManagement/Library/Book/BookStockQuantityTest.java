@@ -25,7 +25,7 @@ class BookStockQuantityTest {
     void constructorThrownBy(int stockQuantity) {
         Assertions.assertThatThrownBy(
                 () -> new BookStockQuantity(new Book(0L, "객체지향의 사실과 오해", "human1", "위키북스", 25_000), stockQuantity)
-        ).isInstanceOf(IllegalArgumentException.class).hasMessage("재고수량에 올바르지 않은 값이 할당 되었습니다.");
+        ).isInstanceOf(IllegalArgumentException.class).hasMessage("재고수량은 %d 보다 작을 수 없습니다.".formatted(0));
     }
 
     @ParameterizedTest

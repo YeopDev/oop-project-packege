@@ -1,4 +1,4 @@
-package bookManagement.shoppingManagement.customer;
+package shoppingManagement.customer;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
