@@ -1,36 +1,51 @@
 package bollingGame;
 
 public class Frame {
-    private int firstRoll;
-    private int secondRoll;
+    private static final int PIN_COUNT = 10;
 
-    public Frame(int firstRoll, int secondRoll) {
-        this.firstRoll = firstRoll;
-        this.secondRoll = secondRoll;
+    private Score first;
+    private Score second;
+
+    public Frame(Score first, Score second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public int getFirstRoll() {
-        return firstRoll;
+    public Frame(Score first) {
+        this(first, Score.ZERO());
     }
 
-    public int getSecondRoll() {
-        return secondRoll;
+    public Score first() {
+        return first;
     }
 
-    public int getFrameScore() {
-        return firstRoll + secondRoll;
+    public Score second() {
+        return second;
+    }
+
+    public int frameScore() {
+        return first.plus(second).value();
     }
 
     public boolean isStrike() {
-        return firstRoll == 10;
+        return first.isStrike();
     }
 
     public boolean isSpare() {
-        return !isStrike() && firstRoll + secondRoll == 10;
+        return !isStrike() && first.plus(second).isStrike();
     }
 
-    public void changeSecondRoll(int pins) {
-        this.secondRoll = pins;
+    public void addSecond(Score second) {
+        if (this.second.compareTo(second.ZERO()) > 0) {
+            throw new IllegalStateException("두번째시도의 값이 이미 있습니다.");
+        }
+        if (this.first.isStrike()) {
+            throw new IllegalStateException("첫번째 시도가 이미 스트라이크 입니다.");
+        }
+        if (!remainingPinCount().compare(second)) {
+            this.second = remainingPinCount();
+        }
+        this.second = second;
     }
 
     public Score remainingPinCount() {

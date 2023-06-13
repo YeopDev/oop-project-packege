@@ -1,104 +1,82 @@
 package bollingGame;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameManagement {
-    private List<Frame> frames;
-    private RandomRollBall randomRollBall;
+    private final Frames frames;
+    private final CreateScore createScore;
 
-    public GameManagement(RandomRollBall randomRollBall) {
-        frames = new ArrayList<>();
-        this.randomRollBall = randomRollBall;
+    private int totalScore;
+
+    public GameManagement(CreateScore createScore) {
+        frames = new Frames();
+        this.createScore = createScore;
+        this.totalScore = 0;
+    }
+
+    public int totalScore() {
+        return this.totalScore;
     }
 
     public void roll() {
-        int remainingPins = 10;
+        Score firstScore = createScore.rollBall();
+        Optional<Frame> currentFrame = frames.last();
 
-        if (!frames.isEmpty()) {
-            Frame lastFrame = frames.get(frames.size() - 1);
-            if (!lastFrame.isStrike() && lastFrame.getSecondRoll() != -1) {
-                remainingPins = 10 - lastFrame.getSecondRoll();
-            }
+        if (currentFrame.isEmpty()) {
+            frames.add(new Frame(firstScore));
+            roll();
         }
 
-        int pins = randomRollBall.rollBall();
-        pins = Math.min(pins, remainingPins);
-
-        Frame currentFrame = getCurrentFrame();
-        if (currentFrame == null || currentFrame.getSecondRoll() == -1) {
-            currentFrame = new Frame(pins, 0);
-            frames.add(currentFrame);
-            return;
+        boolean isStrike = currentFrame.map(Frame::isStrike).orElse(false);
+        if (currentFrame.isPresent() && !isStrike) {
+            Frame frame = currentFrame.get();
+            frame.addSecond(firstScore);
+            firstScore.plus(frame.second());
         }
-
-        currentFrame.changeSecondRoll(pins);
+        calculateTotalScore(frames);
+        frames.reset();
     }
 
-    private Frame getCurrentFrame() {
-        if (frames.isEmpty()) {
-            return null;
-        }
-        Frame lastFrame = frames.get(frames.size() - 1);
-        if (lastFrame.isStrike() || lastFrame.getSecondRoll() != -1) {
-            return null;
-        }
-        return lastFrame;
-    }
+    private int calculateTotalScore(Frames frames) {
+        List<Frame> frameList = frames.contents();
 
-    public Frame getLastFrame() {
-        if (frames.isEmpty()) {
-            return null;
-        }
-        return frames.get(frames.size() - 1);
-    }
-
-    public int getScore() {
-        int score = 0;
-        for (int i = 0; i < frames.size(); i++) {
-            Frame frame = frames.get(i);
-            score += frame.getFrameScore();
+        for (int i = 0; i < frameList.size(); i++) {
+            Frame frame = frameList.get(i);
+            this.totalScore += frame.frameScore();
 
             if (frame.isStrike()) {
-                score += getStrikeBonus(i);
+                strikeBonus(frameList, i);
             }
+
             if (frame.isSpare()) {
-                score += getSpareBonus(i);
+                spareBonus(frameList, i);
             }
         }
-        return score;
+
+        return totalScore;
     }
 
-    private int getStrikeBonus(int frameIndex) {
-        int bonus = 0;
-        int numBonuses = 0;
+    private void strikeBonus(List<Frame> frameList, int currentIndex) {
+        if (currentIndex < frameList.size() - 1) {
+            Frame nextFrame = frameList.get(currentIndex + 1);
+            this.totalScore += nextFrame.frameScore();
 
-        for (int i = frameIndex + 1; i < frames.size(); i++) {
-            Frame nextFrame = frames.get(i);
-            bonus += nextFrame.getFrameScore();
+            if (nextFrame.isStrike() && currentIndex < frameList.size() - 2) {
+                Frame nextNextFrame = frameList.get(currentIndex + 2);
+                this.totalScore += nextNextFrame.first().value();
 
-            if (nextFrame.isStrike()) {
-                numBonuses++;
-                if (numBonuses < 2) {
-                    Frame secondNextFrame = frames.get(i + 1);
-                    bonus += secondNextFrame.getFirstRoll();
+                if (nextNextFrame.isStrike()) {
+                    this.totalScore += nextNextFrame.second().value();
                 }
             }
-
-            if (numBonuses >= 2) {
-                break;
-            }
         }
-
-        return bonus;
     }
 
-    private int getSpareBonus(int frameIndex) {
-        if (frameIndex == frames.size() - 1) {
-            return 0; // 마지막 프레임인 경우 보너스 점수 없음
+    private void spareBonus(List<Frame> frameList, int currentIndex) {
+        if (currentIndex < frameList.size() - 1) {
+            Frame nextFrame = frameList.get(currentIndex + 1);
+            this.totalScore += nextFrame.first().value();
         }
-
-        Frame nextFrame = frames.get(frameIndex + 1);
-        return nextFrame.getFirstRoll();
     }
 }
