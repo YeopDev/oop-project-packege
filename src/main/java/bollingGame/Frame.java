@@ -32,4 +32,11 @@ public class Frame {
     public void changeSecondRoll(int pins) {
         this.secondRoll = pins;
     }
+
+    public Score remainingPinCount() {
+        if (!isStrike()) {
+            return new Score(PIN_COUNT - frameScore());
+        }
+        return new Score(PIN_COUNT);
+    }
 }
