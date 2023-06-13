@@ -13,7 +13,9 @@ public class FilteringApples {
         );
 
         List<Apple> heavyApples = filter(inventory, (Apple apple) -> apple.weight() > 150);
+        System.out.println("heavyApples = " + heavyApples);
         List<Apple> greenApples = filter(inventory, (Apple apple) -> "Red".equals(apple.color()));
+        System.out.println("greenApples = " + greenApples);
     }
     public static <T> List<T> filter(List<T> list, Predicate<T> p){
         List<T> result = new ArrayList<>();
